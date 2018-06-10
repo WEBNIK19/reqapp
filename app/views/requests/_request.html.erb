@@ -1,0 +1,12 @@
+<% @trap.requests.each do | request |%>
+<td>
+  <strong>Request:</strong>
+  <%= request.request %>
+</td>
+<td><%= link_to 'Destroy request',
+ [request.trap, request],
+  method: :delete,
+   data: {confirm: 'Are you sure?'} %>
+</td>
+
+<% end %>
