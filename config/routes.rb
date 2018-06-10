@@ -15,6 +15,6 @@ patch  ':id',                   to:    'traps#update'
 put    ':id',                   to:    'traps#update' 
 delete ':id',                   to:    'traps#destroy' 
                     
-	match ':trap_id/*other' , to: 'requests#create', via: :all
+	match ':trap_id/*schema' , to: 'requests#create', via: :all
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

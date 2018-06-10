@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 20180607160946) do
 
   create_table "requests", force: :cascade do |t|
-    t.text "request"
+    t.text "schema"
     t.string "trap_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

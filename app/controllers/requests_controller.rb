@@ -25,7 +25,7 @@ class RequestsController < ApplicationController
   # POST /requests
   # POST /requests.json
   def create
-    @trap = Trap.find(params[:trap_id]);
+    @trap = Trap.find(params[:trap_id])
     @request = @trap.requests.create(request_params)
 
     respond_to do |format|
@@ -73,6 +73,6 @@ class RequestsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def request_params
-      params.require(:request).permit(:other,:trap_id)
+      params.permit(:schema,:trap_id)
     end
 end

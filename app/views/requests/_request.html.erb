@@ -1,7 +1,7 @@
 <% @trap.requests.each do | request |%>
 <td>
   <strong>Request:</strong>
-  <%= request.request %>
+  <%= request.schema %>
 </td>
 <td><%= link_to 'Destroy request',
  [request.trap, request],
