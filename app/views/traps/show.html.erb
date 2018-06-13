@@ -10,7 +10,8 @@
 <%= link_to 'Back', traps_path %>
 <table>
 	<tr>
+		<th><strong>Method:</strong></th><th>Ip:</th><th>Scheme:</th><th>Params:</th><th>Enviroment:</th><th>Headers:</th><th>Cookies:</th><th>Time:</th>
+	</tr>	
 		<%= render @trap.requests %>
-	</tr>
 </table>
 

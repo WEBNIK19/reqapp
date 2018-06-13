@@ -1,12 +1,29 @@
-<% @trap.requests.each do | request |%>
+<tr>
 <td>
-  <strong>Request:</strong>
-  <%= request.schema %>
+  <%= request.method %>
 </td>
+<td>
+  <%= request.remote_ip %>
+</td>
+<td>
+  <%= request.scheme %>
+</td>
+<td>
+  <%= request.params %>
+</td>
+<td>
+  <%= request.request_env %>
+</td>
+<td>
+	<%= request.headers %>
+</td>
+<td>
+  <%= request.cookies %>
+</td>
+<td><%= request.created_at %></td>
 <td><%= link_to 'Destroy request',
  [request.trap, request],
   method: :delete,
    data: {confirm: 'Are you sure?'} %>
 </td>
-
-<% end %>
+</tr>

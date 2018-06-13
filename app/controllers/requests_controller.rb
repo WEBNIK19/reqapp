@@ -26,15 +26,22 @@ class RequestsController < ApplicationController
   # POST /requests.json
   def create
     @trap = Trap.find(params[:trap_id])
-    @request = @trap.requests.create(request_params)
-
+    @my_request = @trap.requests.create(:trap_id => params[:trap_id], 
+      :remote_ip => request.remote_ip, 
+      :method => request.method, 
+      :params => request.parameters, 
+      :scheme => request.scheme,
+      :headers => Hash.new(request.headers),
+      :cookies => cookies.to_a,
+      :request_env => request.env)
+    
     respond_to do |format|
-      if @request.save
+      if @my_request.save
         format.html { redirect_to trap_path(@trap), notice: 'Request was successfully created.' }
-        format.json { render :show, status: :created, location: @request }
+        format.json { render :show, status: :created, location: @my_request }
       else
         format.html { render :new }
-        format.json { render json: @request.errors, status: :unprocessable_entity }
+        format.json { render json: @my_request.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -71,8 +78,4 @@ class RequestsController < ApplicationController
       @request = Request.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def request_params
-      params.permit(:schema,:trap_id)
-    end
 end

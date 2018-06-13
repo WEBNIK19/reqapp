@@ -13,8 +13,15 @@
 ActiveRecord::Schema.define(version: 20180607160946) do
 
   create_table "requests", force: :cascade do |t|
-    t.text "schema"
+    t.string "scheme"
+    t.string "method"
+    t.string "remote_ip"
+    t.string "params"
     t.string "trap_id"
+    t.text "headers"
+    t.text "query_string"
+    t.text "cookies"
+    t.text "request_env"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
