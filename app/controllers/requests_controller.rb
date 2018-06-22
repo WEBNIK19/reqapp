@@ -4,7 +4,7 @@ class RequestsController < ApplicationController
   # GET /requests
   # GET /requests.json
   def index
-    @requests = Request.all
+    @requests = Request.where(:trap_id=>params[:trap_id]).order('created_at DESC')
   end
 
   # GET /requests/1
@@ -34,41 +34,40 @@ class RequestsController < ApplicationController
       :headers => Hash.new(request.headers),
       :cookies => cookies.to_a,
       :request_env => request.env)
-    
-    respond_to do |format|
-      if @my_request.save
-        format.html { redirect_to trap_path(@trap), notice: 'Request was successfully created.' }
-        format.json { render :show, status: :created, location: @my_request }
-      else
-        format.html { render :new }
-        format.json { render json: @my_request.errors, status: :unprocessable_entity }
-      end
-    end
-  end
 
-  # PATCH/PUT /requests/1
-  # PATCH/PUT /requests/1.json
-  def update
-    respond_to do |format|
-      if @request.update(request_params)
-        format.html { redirect_to @request, notice: 'Request was successfully updated.' }
-        format.json { render :show, status: :ok, location: @request }
-      else
-        format.html { render :edit }
-        format.json { render json: @request.errors, status: :unprocessable_entity }
-      end
+
+    if @my_request.save
+      Pusher.trigger("my_channel", 'new-request', foo: 'bar' )
+      head :no_content
+    else
+      render :nothing => true, :status => 400
     end
-  end
+    # respond_to do |format|
+    #   if @my_request.save
+    #     format.html { redirect_to :trap, notice: 'Request was successfully created.' }
+    #     format.json do 
+    #       Pusher.trigger("my_channel", 'new-request', data: @my_request )
+    #       render :nothing => true, :status => 200
+    #     end
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @my_request.errors, status: :unprocessable_entity }
+    #   end
+    # end
+  end  
 
   # DELETE /requests/1
   # DELETE /requests/1.json
   def destroy
-    @trap = Trap.find(params[:trap_id]);
-    @request = @trap.requests.find(params[:id]);
+    @trap = Trap.find(params[:trap_id])
+    @request = Request.find(params[:id])
     @request.destroy
     respond_to do |format|
       format.html { redirect_to trap_path(@trap), notice: 'Request was successfully destroyed.' }
-      format.json { head :no_content }
+      format.json do 
+        Pusher.trigger("my_channel", 'new-request', foo: bar)
+        head :no_content
+      end
     end
   end
 

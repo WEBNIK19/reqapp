@@ -1,8 +1,25 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Request:</strong>
-  <%= @request.request %>
+  <%= @request.method %>
+</p>
+<p>
+  <%= @request.remote_ip %>
+</p>
+<p>
+  <%= @request.scheme %>
+</p>
+<p>
+  <%= @request.params %>
+</p>
+<p>
+  <%= @request.request_env %>
+</p> 
+<p>
+  <%= @request.headers %>
+</p>
+<p>
+  <%= @request.cookies %>
 </p>
 
 <p>
@@ -10,5 +27,4 @@
   <%= @request.trap_id %>
 </p>
 
-<%= link_to 'Edit', edit_request_path(@request) %> |
-<%= link_to 'Back', requests_path %>
+<%= link_to 'Back', trap_path %>

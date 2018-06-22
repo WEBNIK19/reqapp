@@ -11,9 +11,9 @@
 <td>
   <%= request.params %>
 </td>
-<td>
+<!-- <td>
   <%= request.request_env %>
-</td>
+</td> -->
 <td>
 	<%= request.headers %>
 </td>
@@ -22,7 +22,7 @@
 </td>
 <td><%= request.created_at %></td>
 <td><%= link_to 'Destroy request',
- [request.trap, request],
+ [ request.id],
   method: :delete,
    data: {confirm: 'Are you sure?'} %>
 </td>
