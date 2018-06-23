@@ -36,24 +36,24 @@ class RequestsController < ApplicationController
       :request_env => request.env)
 
 
-    if @my_request.save
-      Pusher.trigger("my_channel", 'new-request', foo: 'bar' )
-      head :no_content
-    else
-      render :nothing => true, :status => 400
-    end
-    # respond_to do |format|
-    #   if @my_request.save
-    #     format.html { redirect_to :trap, notice: 'Request was successfully created.' }
-    #     format.json do 
-    #       Pusher.trigger("my_channel", 'new-request', data: @my_request )
-    #       render :nothing => true, :status => 200
-    #     end
-    #   else
-    #     format.html { render :new }
-    #     format.json { render json: @my_request.errors, status: :unprocessable_entity }
-    #   end
+    # if @my_request.save
+    #   Pusher.trigger("my_channel", 'new-request', foo: 'bar' )
+    #   head :no_content
+    # else
+    #   render :nothing => true, :status => 400
     # end
+    respond_to do |format|
+      if @my_request.save
+        format.html { redirect_to :trap, notice: 'Request was successfully created.' }
+        format.json do 
+          Pusher.trigger("my_channel", 'new-request', data: @my_request )
+          head :no_content
+        end
+      else
+        format.html { render :new }
+        format.json { render json: @my_request.errors, status: :unprocessable_entity }
+      end
+    end
   end  
 
   # DELETE /requests/1

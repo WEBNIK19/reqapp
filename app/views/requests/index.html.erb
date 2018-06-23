@@ -1,15 +1,18 @@
+ <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
  <script>
+  console.log("loaded");
       var pusher = new Pusher('86987ac565e812024804', {
       cluster: 'eu',
       encrypted: true
     });
-      var channel = pusher.subscribe('my_channel');  
-      channel.bind('new-request', function(data) {
-        console.log('You did it');
-        //location.reload(true);
-        //$('#requests').append();
-      });
 
+    var channel = pusher.subscribe('my-channel');
+    channel.bind('new-request', function(data) {
+      //console.log('You did it');
+      location.reload(true);
+        //$('#requests').append();
+    });
+      
  </script>
  <p id="notice"><%= notice %></p>
 <% if @requests.any? %>
