@@ -35,25 +35,32 @@ class RequestsController < ApplicationController
       :cookies => cookies.to_a,
       :request_env => request.env)
 
-
-    # if @my_request.save
-    #   Pusher.trigger("my_channel", 'new-request', foo: 'bar' )
-    #   head :no_content
-    # else
-    #   render :nothing => true, :status => 400
-    # end
-    respond_to do |format|
-      if @my_request.save
-        format.html { redirect_to :trap, notice: 'Request was successfully created.' }
-        format.json do 
-          Pusher.trigger("my_channel", 'new-request', data: @my_request )
-          head :no_content
-        end
-      else
-        format.html { render :new }
-        format.json { render json: @my_request.errors, status: :unprocessable_entity }
-      end
+    
+    if @my_request.save
+      Pusher.trigger('my-channel', 'new-request', {
+        request_id:  @my_request.id,
+        remote_ip:   @my_request.remote_ip,
+        method:      @my_request.method, 
+        params:      @my_request.params,
+        scheme:      @my_request.scheme,
+        headers:     @my_request.headers,
+        cookies:     @my_request.cookies,
+        created_at:  @my_request.created_at
+      })
+      head :no_content
+    else
+      head :no_content
     end
+    
+    # respond_to do |format|
+    #   if @my_request.save
+    #     format.html { redirect_to :trap, notice: 'Request was successfully created.' }
+    #     format.json { render :show, status: :created, location: @my_request }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @my_request.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end  
 
   # DELETE /requests/1

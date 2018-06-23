@@ -1,19 +1,42 @@
- <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
- <script>
-  console.log("loaded");
-      var pusher = new Pusher('86987ac565e812024804', {
+ <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+ <script
+  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+  crossorigin="anonymous"></script>
+  <script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('86987ac565e812024804', {
       cluster: 'eu',
       encrypted: true
     });
 
     var channel = pusher.subscribe('my-channel');
     channel.bind('new-request', function(data) {
-      //console.log('You did it');
-      location.reload(true);
-        //$('#requests').append();
+      $('#requests').append('<tr><td>'+
+  data.method  
++'</td><td>'+
+ data.remote_ip
++'</td><td>'+
+ data.scheme
++'</td><td>'+
+  data.params
++'</td><td>'+
+  data.headers+
+'</td><td>'+
+  data.cookies
++'</td><td>'+
+  data.created_at
++'</td><td><a href="/firefox/requests/'+
+  data.request_id
++'">Show</a></td><td><a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/firefox/requests/'+
+  data.request_id
++'">Destroy request</a></td></tr>')
     });
-      
- </script>
+
+  </script>
  <p id="notice"><%= notice %></p>
 <% if @requests.any? %>
   <p><%= @requests.first.trap_id %></p>
@@ -50,7 +73,7 @@
   <%= request.params %>
 </td>
 <!-- <td>
-  <%= request.request_env %>
+  <% request.request_env %>
 </td> -->
 <td>
   <%= request.headers %>
