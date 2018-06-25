@@ -1,27 +1,32 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <div class="row">
+    <p id="notice"><%= notice %></p>
 
-<h1>Traps</h1>
+    <h1>Traps</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <% @traps.each do |trap| %>
-      <tr>
-        <td><%= trap.id %></td>
-        <td><%= link_to 'Show', trap %></td>
-        <td><%= link_to 'Edit', edit_trap_path(trap) %></td>
-        <td><%= link_to 'Destroy', trap, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <tbody>
+        <% @traps.each do |trap| %>
+        <tr>
+          <td><%= trap.id %></td>
+          <td><%= link_to 'Show', trap, class: "btn btn-default" %></td>
+          <td><%= link_to 'Edit', edit_trap_path(trap), class: "btn btn-default" %></td>
+          <td><%= link_to 'Destroy', trap, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-default" %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
 
-<br>
+    <br>
 
-<%= link_to 'New Trap', traps_new_path %>
+    <%= link_to 'New Trap', traps_new_path, class: "btn btn-success" %>
+  </div>
+</div>
+

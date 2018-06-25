@@ -68,11 +68,16 @@ class RequestsController < ApplicationController
   def destroy
     @trap = Trap.find(params[:trap_id])
     @request = Request.find(params[:id])
+    # if @request.destroy 
+    #   Pusher.trigger("my_channel", 'destroy-request',foo:'bar')
+    #   head :no_content
+    # end
     @request.destroy
+    Pusher.trigger("my_channel", 'destroy-request', foo: 'bar')
     respond_to do |format|
       format.html { redirect_to trap_path(@trap), notice: 'Request was successfully destroyed.' }
       format.json do 
-        Pusher.trigger("my_channel", 'new-request', foo: bar)
+        Pusher.trigger("my_channel", 'destroy-request', foo: 'bar')
         head :no_content
       end
     end

@@ -1,9 +1,9 @@
  <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
  <script
-  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-  integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
-  crossorigin="anonymous"></script>
-  <script>
+ src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+ integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+ crossorigin="anonymous"></script>
+ <script>
 
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
@@ -15,82 +15,75 @@
 
     var channel = pusher.subscribe('my-channel');
     channel.bind('new-request', function(data) {
-      $('#requests').append('<tr><td>'+
-  data.method  
-+'</td><td>'+
- data.remote_ip
-+'</td><td>'+
- data.scheme
-+'</td><td>'+
-  data.params
-+'</td><td>'+
-  data.headers+
-'</td><td>'+
-  data.cookies
-+'</td><td>'+
-  data.created_at
-+'</td><td><a href="/firefox/requests/'+
-  data.request_id
-+'">Show</a></td><td><a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/firefox/requests/'+
-  data.request_id
-+'">Destroy request</a></td></tr>')
+      $('#requests').prepend('<tr><td>'+
+        data.method  
+        +'</td><td>'+
+        data.remote_ip
+        +'</td><td>'+
+        data.scheme
+        +'</td><td>'+
+        data.params
+        +'</td><td>'+
+        data.created_at
+        +'</td><td><a href="/firefox/requests/'+
+        data.request_id
+        +'" class="btn btn-default">Show</a></td><td><a data-confirm="Are you sure?" rel="nofollow" data-method="delete" class="btn btn-default" href="/firefox/requests/'+
+        data.request_id
+        +'">Destroy request</a></td></tr>')
     });
-
+    channel.bind('destroy-request', function(foo) {
+      document.location.reload(true);
+    });
   </script>
- <p id="notice"><%= notice %></p>
-<% if @requests.any? %>
-  <p><%= @requests.first.trap_id %></p>
-<% end %>
-<h1>Requests</h1>
+  <div class="container">
+    <div class="row">
+      <p id="notice"><%= notice %></p>
+      <% if @requests.any? %>
+      <h1><%= @requests.first.trap_id %></h1>
+      <% end %>
+      <%= link_to 'Back', traps_path, class: "btn btn-danger", role: "button" %>
+      <h2>Requests</h2>
 
-<table>
-  <thead>
-    <tr>
-    <th><strong>Method:</strong></th>
-    <th>Ip:</th>
-    <th>Scheme:</th>
-    <th>Params:</th>
-    <!-- <th>Enviroment:</th> -->
-    <th>Headers:</th>
-    <th>Cookies:</th>
-    <th>Time:</th>
-    </tr>
-  </thead>
+      <table class='table table-bordered'>
+        <thead>
+          <tr>
+            <th><strong>Method:</strong></th>
+            <th>Ip:</th>
+            <th>Scheme:</th>
+            <th>Params:</th>
+            <th>Time:</th>
+          </tr>
+        </thead>
 
-  <tbody id='requests'>
-    <% @requests.each do |request| %>
-      <tr>
-<td>
-  <%= request.method %>
-</td>
-<td>
-  <%= request.remote_ip %>
-</td>
-<td>
-  <%= request.scheme %>
-</td>
-<td>
-  <%= request.params %>
-</td>
-<!-- <td>
-  <% request.request_env %>
-</td> -->
-<td>
-  <%= request.headers %>
-</td>
-<td>
-  <%= request.cookies %>
-</td>
-<td><%= request.created_at %></td>
-<td><%= link_to 'Show', request_path(request.trap, request) %></td>
-<td><%= link_to 'Destroy request', destroy_request_path(request.trap, request),
- method: :delete,
-   data: {confirm: 'Are you sure?'} %>
-</td>
-</tr>
-    <% end %>
-  </tbody>
-</table>
+        <tbody id='requests'>
+          <% @requests.each do |request| %>
+          <tr>
+            <td>
+              <%= request.method %>
+            </td>
+            <td>
+              <%= request.remote_ip %>
+            </td>
+            <td>
+              <%= request.scheme %>
+            </td>
+            <td>
+              <%= request.params %>
+            </td>
 
-<br>
+            <td><%= request.created_at %></td>
+            <td><%= link_to 'More', request_path(request.trap, request), class: "btn btn-default" %></td>
+            <td><%= link_to 'Destroy request', destroy_request_path(request.trap, request),
+            method: :delete,
+            data: {confirm: 'Are you sure?'}, class: "btn btn-default" %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br>
+  </div>
+</div>
+
 
