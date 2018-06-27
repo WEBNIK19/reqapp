@@ -3,6 +3,7 @@ class RequestsController < ApplicationController
   # GET /requests
   # GET /requests.json
   def index
+    @trap = Trap.find(params[:trap_id])
     @requests = Request.where(:trap_id=>params[:trap_id]).order('created_at DESC')
   end
 

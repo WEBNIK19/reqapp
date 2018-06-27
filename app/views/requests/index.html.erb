@@ -31,16 +31,14 @@
         data.request_id
         +'">Destroy request</a></td></tr>')
     });
-    channel.bind('destroy-request', function(foo) {
-      document.location.reload(true);
-    });
+    // channel.bind('destroy-request', function(foo) {
+    //   document.location.reload(true);
+    // });
   </script>
   <div class="container">
     <div class="row">
       <p id="notice"><%= notice %></p>
-      <% if @requests.any? %>
-      <h1><%= @requests.first.trap_id %></h1>
-      <% end %>
+      <h1><%= @trap.id %></h1>
       <%= link_to 'Back', traps_path, class: "btn btn-danger", role: "button" %>
       <h2>Requests</h2>
 
