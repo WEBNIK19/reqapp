@@ -1,6 +1,5 @@
 class RequestsController < ApplicationController
-  before_action :set_request, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /requests
   # GET /requests.json
   def index
@@ -82,11 +81,5 @@ class RequestsController < ApplicationController
       end
     end
   end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_request
-      @request = Request.find(params[:id])
-    end
 
 end

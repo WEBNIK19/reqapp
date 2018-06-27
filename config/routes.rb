@@ -1,5 +1,6 @@
 Rails.application.routes.draw do  
-  root 'traps#index'
+  
+  root 'tutorial#index'
  #  resources :traps do
 	# 	resources :requests, only: [:index, :show, :destroy]
 	# end

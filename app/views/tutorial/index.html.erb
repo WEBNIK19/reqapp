@@ -1,0 +1,16 @@
+<div class="container">
+	<div class="row">
+		<h1>Request trap</h1>
+		<p>A tool for capture and display HTTP requests.</p>
+		<h2>How to use request trap?</h2>
+		<p>First you have to create a trap instance.</p>
+		<p>Go to the All traps page and press New, to do this.</p>
+		<p>After you make a trap, on it's page you can see all the captured requests.</p>
+		<p>Send your request to /:trap_id</p>
+		<p>View the requests at /:trap_id/requests</p>
+		<p>To see a single request go to /:trap_id/requests/:id</p>
+		<p>Request trap capture only http://reqapp/:trap_id/:some_string like requests.</p>
+		<%= link_to 'All traps', traps_path, class: "btn btn-success", role: "button" %>
+	</div>
+</div>
+
