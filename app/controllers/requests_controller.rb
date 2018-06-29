@@ -18,10 +18,6 @@ class RequestsController < ApplicationController
     @request = Request.new
   end
 
-  # GET /requests/1/edit
-  def edit
-  end
-
   # POST /requests
   # POST /requests.json
   def create
@@ -35,7 +31,6 @@ class RequestsController < ApplicationController
       :cookies => cookies.to_a,
       :request_env => request.env)
 
-    
     if @my_request.save
       Pusher.trigger('my-channel', 'new-request', {
         request_id:  @my_request.id,
@@ -47,39 +42,21 @@ class RequestsController < ApplicationController
         cookies:     @my_request.cookies,
         created_at:  @my_request.created_at
       })
-      head :no_content
+      head :created
     else
-      head :no_content
+      head :forbidden
     end
-    
-    # respond_to do |format|
-    #   if @my_request.save
-    #     format.html { redirect_to :trap, notice: 'Request was successfully created.' }
-    #     format.json { render :show, status: :created, location: @my_request }
-    #   else
-    #     format.html { render :new }
-    #     format.json { render json: @my_request.errors, status: :unprocessable_entity }
-    #   end
-    # end
   end  
 
   # DELETE /requests/1
   # DELETE /requests/1.json
   def destroy
-    @trap = Trap.find(params[:trap_id])
-    @request = Request.find(params[:id])
-    # if @request.destroy 
-    #   Pusher.trigger("my_channel", 'destroy-request',foo:'bar')
-    #   head :no_content
-    # end
+    @trap = Trap.find(params[:trap_id]);
+    @request = @trap.requests.find(params[:id]);
     @request.destroy
-    Pusher.trigger("my_channel", 'destroy-request', foo: 'bar')
     respond_to do |format|
       format.html { redirect_to trap_path(@trap), notice: 'Request was successfully destroyed.' }
-      format.json do 
-        Pusher.trigger("my_channel", 'destroy-request', foo: 'bar')
-        head :no_content
-      end
+      format.json { head :no_content }
     end
   end
 
