@@ -4,7 +4,7 @@
 			<p id="notice"><%= notice %></p>
 			<div class="panel panel-default">
 				<div class="panel-heading"><a role="button" data-toggle="collapse" href="#time" aria-controls="time">Time</a></div>
-				<div class="panel-body collapse in" aria-expanded=true  id="time" ><%= @request.created_at %></div>
+				<div class="panel-body collapse in" aria-expanded=true  id="time" ><%= @request.created_at.strftime("%F %T") %></div>
 			</div>
 			<div class="panel panel-default">
 				<div class="panel-heading"><a role="button" data-toggle="collapse" href="#method" aria-controls="method">Method</a></div>

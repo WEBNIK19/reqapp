@@ -1,10 +1,5 @@
  <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
- <script
- src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
- integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
- crossorigin="anonymous"></script>
  <script>
-
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
 
@@ -69,7 +64,7 @@
               <%= request.params %>
             </td>
 
-            <td><%= request.created_at %></td>
+            <td><%= request.created_at.strftime("%F %T") %></td>
             <td><%= link_to 'More', request_path(request.trap, request), class: "btn btn-default" %></td>
             <td><%= link_to 'Destroy request', destroy_request_path(request.trap, request),
             method: :delete,

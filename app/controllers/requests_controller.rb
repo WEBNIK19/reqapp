@@ -18,8 +18,7 @@ class RequestsController < ApplicationController
     @request = Request.new
   end
 
-  # POST /requests
-  # POST /requests.json
+  
   def create
     @trap = Trap.find(params[:trap_id])
     @my_request = @trap.requests.create(:trap_id => params[:trap_id], 
@@ -31,7 +30,7 @@ class RequestsController < ApplicationController
       :cookies => cookies.to_a,
       :request_env => request.env)
 
-    if @my_request.save
+    if @my_request.persisted?
       Pusher.trigger('my-channel', 'new-request', {
         request_id:  @my_request.id,
         remote_ip:   @my_request.remote_ip,
@@ -40,9 +39,9 @@ class RequestsController < ApplicationController
         scheme:      @my_request.scheme,
         headers:     @my_request.headers,
         cookies:     @my_request.cookies,
-        created_at:  @my_request.created_at
+        created_at:  @my_request.created_at.strftime('%F %T')
       })
-      head :created
+      head :no_content
     else
       head :forbidden
     end
@@ -53,7 +52,7 @@ class RequestsController < ApplicationController
   def destroy
     @trap = Trap.find(params[:trap_id]);
     @request = @trap.requests.find(params[:id]);
-    @request.destroy
+    @request.destroy!
     respond_to do |format|
       format.html { redirect_to trap_path(@trap), notice: 'Request was successfully destroyed.' }
       format.json { head :no_content }
