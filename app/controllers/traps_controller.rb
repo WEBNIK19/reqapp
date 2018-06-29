@@ -55,7 +55,7 @@ class TrapsController < ApplicationController
   # DELETE /traps/1
   # DELETE /traps/1.json
   def destroy
-    @trap.destroy
+    @trap.destroy!
     respond_to do |format|
       format.html { redirect_to traps_url, notice: 'Trap was successfully destroyed.' }
       format.json { head :no_content }

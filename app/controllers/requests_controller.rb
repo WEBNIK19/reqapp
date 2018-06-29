@@ -12,12 +12,6 @@ class RequestsController < ApplicationController
   def show
     @request = Request.find(params[:id]);
   end
-
-  # GET /requests/new
-  def new
-    @request = Request.new
-  end
-
   
   def create
     @trap = Trap.find(params[:trap_id])
